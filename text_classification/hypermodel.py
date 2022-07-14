@@ -32,7 +32,7 @@ class StandardTextClassificationHyperModel(BaseTextClassificationHyperModel):
         dense_units = hp.Choice('units', [8, 16, 32])
         learning_rate = hp.Float("learning_rate", 1e-6, 1e-2, sampling="log", default=1e-3)
         model = StandardTextClassificationModel(
-            self.train_ds, self.n_output_units, embedding_dim=dense_units)
+            train_ds=self.train_ds, n_output_units=self.n_output_units, embedding_dim=dense_units)
         model.compile(loss=self.loss,
                       optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
                       metrics=self.metric)
@@ -46,7 +46,8 @@ class TFHubEmbeddingTextClassificationHyperModel(BaseTextClassificationHyperMode
         tf_hub_url = hp.Choice('tf_hub_url', ["https://tfhub.dev/google/nnlm-en-dim50/2",
                                               "https://tfhub.dev/google/universal-sentence-encoder/4"])
         model = TFHubEmbeddingTextClassificationModel(
-            self.train_ds, tf_hub_url, self.n_output_units, trainable)
+            train_ds=self.train_ds, tf_hub_url=tf_hub_url,
+            n_output_units=self.n_output_units, trainable=trainable)
         model.compile(loss=self.loss,
                       optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
                       metrics=self.metric)
@@ -59,7 +60,7 @@ class BertTextClassificationHyperModel(BaseTextClassificationHyperModel):
         trainable = hp.Boolean("trainable")
 
         model = BertTextClassificationModel(
-            self.train_ds, self.n_output_units, trainable)
+            train_ds=self.train_ds, n_output_units=self.n_output_units, trainable=trainable)
         model.compile(loss=self.loss,
                       optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
                       metrics=self.metric)
