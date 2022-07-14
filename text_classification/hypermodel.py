@@ -68,7 +68,7 @@ class BertTextClassificationHyperModel(BaseTextClassificationHyperModel):
 
 def tune_model(hypermodel: BaseTextClassificationHyperModel, log_dir: str, objective: str, train_ds: tf.data.Dataset,
                val_ds: tf.data.Dataset, epochs: int, max_trials: int,
-               executions_per_trial: int) -> keras_tuner.KerasTuner:
+               executions_per_trial: int) -> keras_tuner.Tuner:
     tuner = keras_tuner.RandomSearch(objective=objective,
                                      hypermodel=hypermodel,
                                      max_trials=max_trials,
