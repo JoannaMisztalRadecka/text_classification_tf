@@ -1,6 +1,5 @@
 tensorflow==2.8.2
 tensorflow_hub
 tensorflow_datasets
-pandas
 tensorflow-text==2.8.2
 keras_tuner
