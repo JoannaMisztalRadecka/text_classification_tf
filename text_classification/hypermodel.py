@@ -1,11 +1,11 @@
+import keras_tuner
+import os
+import tensorflow as tf
 from abc import abstractmethod
 
-import keras_tuner
-import tensorflow as tf
-
+from text_classification.embedding_projector import EmbeddingVisualizer
 from text_classification.model import StandardTextClassificationModel, TFHubEmbeddingTextClassificationModel, \
     BertTextClassificationModel, BaseTextClassificationModel
-from text_classification.embedding_projector import EmbeddingVisualizer
 
 
 class BaseTextClassificationHyperModel(keras_tuner.HyperModel):
@@ -101,6 +101,4 @@ def get_best_model(hypermodel: BaseTextClassificationHyperModel, log_dir: str, o
     tuner = tune_model(hypermodel, log_dir, objective, train_ds, val_ds, epochs, max_trials, executions_per_trial)
     best_model = tuner.get_best_models(num_models=1)[0]
     EmbeddingVisualizer.visualize_embeddings(best_model, log_dir, val_ds)
-    best_model.save(os.path.join(log_dir, type(best_model).__name__))
-
     return best_model
